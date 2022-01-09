@@ -62,7 +62,7 @@ class RenderCupertinoList extends RenderSliverMultiBoxAdaptor {
 
   @override
   void performLayout() {
-    final SliverConstraints constraints = this.constraints;
+    final constraints = this.constraints;
     childManager.didStartLayout();
     childManager.setDidUnderflow(false);
 
@@ -438,6 +438,11 @@ class RenderCupertinoList extends RenderSliverMultiBoxAdaptor {
           painter,
           oldLayer: _transformLayer.layer,
         );
+        super.showOnScreen(
+          descendant: child,
+        );
+
+        // context.paintChild(child, childOffset);
       }
 
       child = childAfter(child);
@@ -476,7 +481,7 @@ class RenderCupertinoList extends RenderSliverMultiBoxAdaptor {
     }
   }
 
-    bool _getRightWayUp(SliverConstraints constraints) {
+  bool _getRightWayUp(SliverConstraints constraints) {
     assert(constraints != null);
     assert(constraints.axisDirection != null);
     bool rightWayUp;

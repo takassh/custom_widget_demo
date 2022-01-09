@@ -1,13 +1,8 @@
-import 'package:custom_widget/cupertino_task_view_2.dart';
-import 'package:custom_widget/cupertino_task_view_widget.dart';
-import 'package:custom_widget/sliver_flip.dart';
+import 'package:custom_widget/custom_widgets/cupertino/custom_task_view.dart';
+import 'package:custom_widget/playground/cupertino_task_view_2.dart';
 import 'package:custom_widget/view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-
-import 'cupertino_task_view.dart';
-import 'custom_page_scroll_phsics.dart';
 
 void main() {
   // debugRepaintRainbowEnabled = true;
@@ -54,6 +49,10 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       body: _buildHorizontalScroll(),
     );
+
+    // return Scaffold(
+    //   body: CupertinoTaskView(),
+    // );
   }
 
   Widget _buildScrollable() {
