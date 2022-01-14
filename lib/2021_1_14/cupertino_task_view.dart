@@ -2,47 +2,33 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-const double kOverlap = 25.6;
-const int kMaxItemCount = (250 ~/ kOverlap);
+//childMainAxisPositionが0以下にならないようにすることで揃っていくように見えないか
+//403行目のcollectGarbageを変更することで最初にあったものを消さないようにできる
 
 class CupertinoTaskView extends ListView {
   final IndexedWidgetBuilder builder;
-  final int leftIndex;
-  final int rightIndex;
 
   CupertinoTaskView({
     Key? key,
     required this.builder,
-    required this.leftIndex,
-    required this.rightIndex,
   }) : super.builder(
           key: key,
           itemBuilder: builder,
           scrollDirection: Axis.horizontal,
-          itemCount: kMaxItemCount,
           physics: const AlwaysScrollableScrollPhysics(),
         );
 
   @override
   Widget buildChildLayout(BuildContext context) {
-    return _CupertinoListView(
-      delegate: childrenDelegate,
-      leftIndex: leftIndex,
-      rightIndex: rightIndex,
-    );
+    return _CupertinoListView(delegate: childrenDelegate);
   }
 }
 
 class _CupertinoListView extends SliverMultiBoxAdaptorWidget {
-  final int leftIndex;
-  final int rightIndex;
-
   /// Creates a sliver that places box children in a linear array.
   const _CupertinoListView({
     Key? key,
     required SliverChildDelegate delegate,
-    required this.leftIndex,
-    required this.rightIndex,
   }) : super(key: key, delegate: delegate);
 
   @override
@@ -53,15 +39,12 @@ class _CupertinoListView extends SliverMultiBoxAdaptorWidget {
   _RenderCupertinoList createRenderObject(BuildContext context) {
     final SliverMultiBoxAdaptorElement element =
         context as SliverMultiBoxAdaptorElement;
-    return _RenderCupertinoList(
-        childManager: element, leftIndex: leftIndex, rightIndex: rightIndex);
+    return _RenderCupertinoList(childManager: element);
   }
 
   @override
   void updateRenderObject(
-      BuildContext context, covariant _RenderCupertinoList renderObject) {
-    renderObject.leftIndex = leftIndex;
-  }
+      BuildContext context, covariant _RenderCupertinoList renderObject) {}
 }
 
 class _RenderCupertinoList extends RenderSliverMultiBoxAdaptor {
@@ -71,43 +54,21 @@ class _RenderCupertinoList extends RenderSliverMultiBoxAdaptor {
   /// The [childManager] argument must not be null.
   _RenderCupertinoList({
     required RenderSliverBoxChildManager childManager,
-    required int leftIndex,
-    required int rightIndex,
-  })  : _leftIndex = leftIndex,
-        _rightIndex = rightIndex,
-        super(childManager: childManager);
-
-  int _leftIndex;
-  int get leftIndex => _leftIndex;
-  set leftIndex(int value) {
-    if (_leftIndex == value) return;
-    _leftIndex = value;
-    markNeedsLayout();
-  }
-
-  int _rightIndex;
-  int get rightIndex => _rightIndex;
-  set rightIndex(int value) {
-    if (_rightIndex == value) return;
-    _rightIndex = value;
-    markNeedsLayout();
-  }
+  }) : super(childManager: childManager);
 
   @override
   double childMainAxisPosition(covariant RenderBox child) {
     final index = indexOf(child);
-    if (index == leftIndex) {
-      return 0;
-    }
-
-    var offset = 0.0; //なぜか250までしか許容しないので注意
-    for (var i = 0; i < index; i++) {
-      offset += kOverlap;
-    }
-    // if (index == rightIndex + 1) {
-    //   offset -= kOverlap;
+    var position = childScrollOffset(child)! - constraints.scrollOffset;
+    // for (var i = 0; i < index; i++) {
+    //   position -= 30;
     // }
-    return childScrollOffset(child)! - constraints.scrollOffset - offset;
+
+    if (position < 0) {
+      return 0;
+    } else {
+      return position;
+    }
   }
 
   @override
