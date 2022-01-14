@@ -4,7 +4,6 @@ import 'package:custom_widget/2021_1_13/cupertino_task_view.dart';
 import 'package:custom_widget/view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 void main() {
   // debugRepaintRainbowEnabled = true;
@@ -38,9 +37,10 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   var _leftIndex = 0;
   var _pixels = 0.0;
-  final _base = 20;
+  final _base = 30;
   final _overlap = kOverlap;
   late final _tick = (_base - _overlap);
+  final _colors = Colors.primaries.map((e) => e.shade500).toList();
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _buildHorizontalScroll() {
     return Center(
       child: SizedBox(
-        height: 600,
+        height: 500,
         child: NotificationListener<ScrollNotification>(
           onNotification: (notification) {
             setState(() {
@@ -71,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 return SizedBox(
                   width: 300,
                   child: View(
-                    color: Colors.primaries[index % Colors.primaries.length],
+                    color: _colors[index % _colors.length],
                   ),
                 );
               }
@@ -85,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         : _factor(_base, _base, _pixels),
                     child: View(
                       showRight: index + 1 == kMaxItemCount,
-                      color: Colors.primaries[index % Colors.primaries.length],
+                      color: _colors[index % _colors.length],
                     ),
                   ),
                 );
@@ -96,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     width: _factor(80, _base, _pixels),
                     child: View(
                       showRight: index + 1 == kMaxItemCount,
-                      color: Colors.primaries[index % Colors.primaries.length],
+                      color: _colors[index % _colors.length],
                     ),
                   ),
                 );
@@ -107,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     width: _factor(210, 80, _pixels),
                     child: View(
                       showRight: index + 1 == kMaxItemCount,
-                      color: Colors.primaries[index % Colors.primaries.length],
+                      color: _colors[index % _colors.length],
                     ),
                   ),
                 );
@@ -118,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     width: _factor(300, 210, _pixels),
                     child: View(
                       showRight: index + 1 == kMaxItemCount,
-                      color: Colors.primaries[index % Colors.primaries.length],
+                      color: _colors[index % _colors.length],
                     ),
                   ),
                 );

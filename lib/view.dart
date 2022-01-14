@@ -16,10 +16,10 @@ class View extends StatelessWidget {
         color: color,
         borderRadius: !showRight
             ? const BorderRadius.only(
-                topLeft: Radius.circular(16),
-                bottomLeft: Radius.circular(16),
+                topLeft: Radius.circular(24),
+                bottomLeft: Radius.circular(24),
               )
-            : BorderRadius.circular(16),
+            : BorderRadius.circular(24),
       ),
     );
   }

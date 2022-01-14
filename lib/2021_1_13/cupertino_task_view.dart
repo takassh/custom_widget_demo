@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-const double kOverlap = 8.6;
+const double kOverlap = 13.6;
 const int kMaxItemCount = (250 ~/ kOverlap);
 
 class CupertinoTaskView extends ListView {
